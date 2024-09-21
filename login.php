@@ -1,3 +1,7 @@
+<?php
+    include_once './'
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,15 +56,15 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="login.php" method="POST">
+                        <form action="functionLogin" method="POST">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="txtUser"><i class="fas fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="username" >
+                                <input type="text" class="form-control" placeholder="username" name="username">
                             </div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="txtPass"><i class="fas fa-key"></i></span>
-                                <input type="password" class="form-control" placeholder="password" >
+                                <input type="password" class="form-control" placeholder="password" name="password">
                             </div>
                             
                             <div class="row align-items-center remember">
