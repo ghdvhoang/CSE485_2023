@@ -64,4 +64,36 @@ CREATE VIEW vw_Music AS
 SELECT baiviet.*, tacgia.ten_tgia, theloai.ten_tloai
 FROM baiviet
 JOIN tacgia ON baiviet.ma_tgia = tacgia.ma_tgia
-JOIN theloai ON baiviet.ma_tloai = theloai.ma_tloai
+JOIN theloai ON baiviet.ma_tloai = theloai.ma_tloai;
+
+-- j
+DELIMITER $$
+	CREATE PROCEDURE sp_DSBaiViet(IN ten_the_loai VARCHAR(50))
+    BEGIN
+    	IF EXISTS(SELECT 1 FROM theloai WHERE theloai.ten_tloai = ten_the_loai) THEN
+        	SELECT baiviet.tieude
+            FROM baiviet
+            JOIN theloai ON theloai.ma_tloai = baiviet.ma_tloai
+            WHERE theloai.ten_tloai = ten_the_loai;
+         ELSE
+         	SELECT 'Khong tim thay' AS ThongBao;
+         END IF;
+    END $$;
+DELIMITER ;
+-- k
+ALTER TABLE theloai
+ADD SLBaiViet INT;
+
+-- l
+CREATE TABLE users (
+    id INT NOT NULL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+);
+
+
+INSERT INTO users (id, username, password) 
+VALUES
+(1,'admin', 'admin123'),
+(2,'username1', 'hashed_password1'),
+(3,'username2', 'hashed_password2');
