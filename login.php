@@ -1,5 +1,5 @@
 <?php
-    include_once './'
+    include_once './connect/db.php'
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="functionLogin" method="POST">
+                        <form action="functionLogin.php" method="POST">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="txtUser"><i class="fas fa-user"></i></span>
                                 <input type="text" class="form-control" placeholder="username" name="username">

@@ -1,3 +1,35 @@
+<?php
+    include_once '../connect/conn.php';
+
+    //đếm số lượng thể loại
+    $query_1 = "SELECT COUNT(ma_tloai) AS so_luong_tloai FROM theloai";
+    $result_1 = $conn -> query($query_1);
+    if($result_1 -> num_rows > 0){
+        $so_luong_tloai = $result_1 -> fetch_assoc();
+    }
+
+    //đếm số lượng tác giả
+    $query_2 = "SELECT COUNT(ma_tgia) AS so_luong_tgia FROM tacgia";
+    $result_2 = $conn -> query($query_2);
+    if($result_2 -> num_rows > 0){
+        $so_luong_tgia = $result_2 -> fetch_assoc();
+    }
+
+    //đếm số lượng bài viết
+    $query_3 = "SELECT COUNT(ma_bviet) AS so_luong_bviet FROM baiviet";
+    $result_3 = $conn -> query($query_3);
+    if($result_3 -> num_rows > 0){
+        $so_luong_bviet = $result_3 -> fetch_assoc();
+    }
+
+    //đếm số lượng người dùng
+    $query_4 = "SELECT COUNT(id) AS so_luong_ndung FROM users WHERE username != 'admin'";
+    $result_4 = $conn -> query($query_4);
+    if($result_4 -> num_rows > 0){
+        $so_luong_ndung = $result_4 -> fetch_assoc();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +85,7 @@
                         </h5>
 
                         <h5 class="h1 text-center">
-                            110
+                            <?php echo $so_luong_ndung['so_luong_ndung']; ?>
                         </h5>
                     </div>
                 </div>
@@ -67,7 +99,7 @@
                         </h5>
 
                         <h5 class="h1 text-center">
-                            10
+                            <?php echo $so_luong_tloai['so_luong_tloai']; ?>
                         </h5>
                     </div>
                 </div>
@@ -81,7 +113,7 @@
                         </h5>
 
                         <h5 class="h1 text-center">
-                            20
+                            <?php echo $so_luong_tgia['so_luong_tgia']; ?>
                         </h5>
                     </div>
                 </div>
@@ -95,7 +127,7 @@
                         </h5>
 
                         <h5 class="h1 text-center">
-                            110
+                            <?php echo $so_luong_bviet['so_luong_bviet']; ?>
                         </h5>
                     </div>
                 </div>

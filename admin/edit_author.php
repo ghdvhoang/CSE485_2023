@@ -47,20 +47,21 @@
         <div class="row">
             <div class="col-sm">
                 <h3 class="text-center text-uppercase fw-bold">Sửa thông tin tác giả</h3>
-                <form action="process_add_category.php" method="post">
+                <form action="process_edit_author.php" method="post" enctype="multipart/form-data">
                 <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="lblCatId">Mã tác giả</span>
-                        <input type="text" class="form-control" name="txtCatId" readonly value="1">
+                        <input type="text" class="form-control" name="txtCatId" readonly value="<?php echo $_GET['id']; ?>">
                     </div>
 
                     <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="lblCatName">Tên tác giả</span>
-                        <input type="text" class="form-control" name="txtCatName" value = "Sơn Tùng mtp">
+                        <input type="text" class="form-control" name="txtCatName" value = "<?php echo $_GET['name']; ?>">
                     </div>
 
                     <div class="input-group mt-3 mb-3">
                         <label for="fileUpload" class="me-3">Chọn hình ảnh tác giả:  </label>
-                        <input type="file" name="image" id="fileUpload" accept="image/*">
+                        <input type="file" name="image" id="fileUpload" accept="image/*" onchange="priviewImg(event)">
+                        <img id="preview" src="<?php echo $_GET['path'] ?>" alt="Hình ảnh tác giả" class="img-thumbnail" style="width: 150px; height: auto;">
                     </div>
 
                     <div class="form-group  float-end ">
@@ -75,5 +76,18 @@
         <h4 class="text-center text-uppercase fw-bold">TLU's music garden</h4>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script>
+        function priviewImg(event){
+            let file = event.target.files[0]; // Lấy file đã chọn
+            if (file) {
+                let reader = new FileReader(); // Tạo một đối tượng FileReader
+                reader.onload = function(e) {
+                    let output = document.getElementById("preview");
+                    output.src = e.target.result; // Gán URL của hình ảnh vào thẻ <img>
+                };
+                reader.readAsDataURL(file); // Đọc file dưới dạng URL Data
+            }
+        }
+    </script>
 </body>
 </html>

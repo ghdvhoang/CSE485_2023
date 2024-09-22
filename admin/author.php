@@ -1,3 +1,10 @@
+<?php 
+    include_once '../connect/conn.php';
+
+    $query = "SELECT * FROM tacgia";
+    $result = $conn -> query($query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,19 +65,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Ronaldo</td>
-                            <td>
-                                <img src="/images/author/sontungmtp.jpg" alt="Hình ảnh tác giả" >
-                            </td>
-                            <td>
-                                <a href="edit_author.php?id=1"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href=""><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
+                        <?php
+                         if($result -> num_rows > 0){
+                            $stt = 1;
+                            while($author = $result -> fetch_assoc()){
+                                ?>
+                                    <tr>
+                                        <th scope="row" style="width: 50px;"><?php echo $stt++; ?></th>
+                                        <td  style="width: 200px;"><?php echo $author['ten_tgia']; ?></td>
+                                        <td style="width: 100px;">
+                                            <img src="<?php echo $author['hinh_anh']; ?>" alt="Hình ảnh tác giả" style="width: 50px; height: auto;">
+                                        </td>
+                                        <td style="width: 50px;">
+                                            <a href="edit_author.php?id=<?php echo $author['ma_tgia']; ?>&name=<?php echo $author['ten_tgia']; ?> &path= <?php echo $author['hinh_anh']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        </td>
+                                        <td style="width: 50px;">
+                                            <a href="delete_author.php?id=<?php echo $author['ma_tgia']; ?>" onclick="return confirm('Bạn có muốn xóa tác giả: <?php echo $author['ten_tgia']; ?> không?')"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php
+                            }
+                         }
+                        ?>
                     </tbody>
                 </table>
             </div>
