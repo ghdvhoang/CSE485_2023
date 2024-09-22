@@ -1,3 +1,17 @@
+<?php
+include_once '../connect/conn.php';
+
+//Danh sach tác giả
+$query_tgia = "SELECT * FROM tacgia";
+$result_tgia = $conn -> query($query_tgia);
+
+//Danh sách thể loại
+$query_tloai = "SELECT * FROM theloai";
+$result_tloai = $conn -> query($query_tloai);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,31 +66,59 @@
                     </div>
 
                     <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" id="lblMusic">Tên bài hát</span>
+                        <input type="text" class="form-control" name="txtMusic" required>
+                    </div>
+
+                    <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="lblCategory">Thể loại</span>
                         <select class="form-select" name="txtCategory" required>
-                            <option value="Thể loại 1">Thể loại 1</option>
-                            <option value="Thể loại 2">Thể loại 2</option>
-                            <option value="Thể loại 3">Thể loại 3</option>
+                            <?php
+                                if($result_tloai -> num_rows > 0){
+                                    while($category = $result_tloai -> fetch_assoc()){
+                                        ?>
+                                            <option value="<?php echo $category['ten_tloai']; ?>"><?php echo $category['ten_tloai']; ?></option>
+                                        <?php
+                                    }
+                                }
+                            ?>
                         </select>
                     </div>
 
                     <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="lblAuthor">Tác giả</span>
                         <select class="form-select" name="txtAuthor" required>
-                            <option value="Tác giả 1">Tác giả 1</option>
-                            <option value="Tác giả 2">Tác giả 2</option>
-                            <option value="Tác giả 3">Tác giả 3</option>
+                        <?php
+                                if($result_tgia -> num_rows > 0){
+                                    while($author = $result_tgia -> fetch_assoc()){
+                                        ?>
+                                            <option value="<?php echo $author['ten_tgia']; ?>"><?php echo $author['ten_tgia']; ?></option>
+                                        <?php
+                                    }
+                                }
+                            ?>
                         </select>
                     </div>
 
                     <div class="input-group mt-3 mb-3">
+                        <label for="dateWritten" class="me-3">Ngày viết bài: </label>
+                        <input type="datetime-local" name="date" id="dateWritten">
+                    </div>
+
+                    <div class="input-group mt-3 mb-3">
                         <label for="fileUpload" class="me-3">Chọn hình ảnh bài viết: </label>
-                        <input type="file" name="image" id="fileUpload" accept="image/*">
+                        <input type="file" name="image" id="fileUpload" accept="image/*" onchange="priviewImg(event)">
+                        <img id="preview" class="img-thumbnail" style="width: 150px; height: auto;" >
                     </div>
 
                     <div class="input-group mt-3 mb-3">
                         <span class="input-group-text" id="lblContent">Nội dung bài viết</span>
-                        <textarea class="form-control" name="txtContent" rows="5" required></textarea>
+                        <textarea class="form-control" name="txtContent" rows="3" required></textarea>
+                    </div>
+
+                    <div class="input-group mt-3 mb-3">
+                        <span class="input-group-text" id="lblContent">Tóm tắt bài viết</span>
+                        <textarea class="form-control" name="txtSummary" rows="3" required></textarea>
                     </div>
 
                     <div class="form-group float-end">
@@ -91,5 +133,18 @@
         <h4 class="text-center text-uppercase fw-bold">TLU's music garden</h4>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script>
+         function priviewImg(event){
+            let file = event.target.files[0]; // Lấy file đã chọn
+            if (file) {
+                let reader = new FileReader(); // Tạo một đối tượng FileReader
+                reader.onload = function(e) {
+                    let output = document.getElementById("preview");
+                    output.src = e.target.result; // Gán URL của hình ảnh vào thẻ <img>
+                };
+                reader.readAsDataURL(file); // Đọc file dưới dạng URL Data
+            }
+        }
+    </script>
 </body>
 </html>
