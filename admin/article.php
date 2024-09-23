@@ -1,3 +1,13 @@
+<?php
+include_once '../connect/conn.php';
+
+$query = "SELECT *   FROM baiviet
+            JOIN tacgia ON baiviet.ma_tgia = tacgia.ma_tgia
+             JOIN theloai ON baiviet.ma_tloai = theloai.ma_tloai";
+$result = $conn -> query($query);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,25 +72,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Bài viết 1</td>
-                            <td>Bài hát 1</td>
-                            <td>Thể loại 1</td>
-                            <td>Tóm tắt nội dung của bài viết 1</td>
-                            <td>Nội dung đầy đủ của bài viết 1</td>
-                            <td>Tác giả 1</td>
-                            <td>2024-09-21</td>
-                            <td>
-                                <img src="/images/articles/baihat1.jpg" alt="Hình ảnh bài viết" style="width: 80px;">
-                            </td>
-                            <td>
-                                <a href="edit_article.php?id=1"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href="delete_article.php?id=1"><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
+                        <?php
+                            if($result -> num_rows > 0){
+                                $stt = 1;
+                                while($article = $result -> fetch_assoc()){
+                                ?>
+                                    <tr>
+                                        <th scope="row"><?php echo $stt++; ?></th>
+                                        <td><?php echo $article['tieude']; ?></td>
+                                        <td><?php echo $article['ten_bhat']; ?></td>
+                                        <td><?php echo $article['ten_tloai']; ?></td>
+                                        <td><?php echo $article['tomtat']; ?></td>
+                                        <td><?php echo $article['noidung']; ?></td>
+                                        <td><?php echo $article['ten_tgia']; ?></td>
+                                        <td><?php echo $article['ngayviet']; ?></td>
+                                        <td>
+                                            <img src="../<?php echo $article['hinhanh']; ?>" alt="Hình ảnh bài viết" style="width: 80px; height: auto;">
+                                            
+                                        </td>
+                                        <td>
+                                            <a href="edit_article.php?id=<?php echo $article['ma_bviet']; ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        </td>
+                                        <td>
+                                            <a href="delete_article.php?id=<?php echo $article['ma_bviet']; ?>" onclick="return confirm('Bạn có muốn xóa bài viết <?php echo $article['tieude']; ?> này không?')"><i class="fa-solid fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                            }
+                        ?>
                         <!-- Thêm các bài viết khác tại đây -->
                     </tbody>
                 </table>

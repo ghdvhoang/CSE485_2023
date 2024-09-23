@@ -1,3 +1,10 @@
+<?php 
+    include_once './connect/conn.php'; 
+
+    $query = "SELECT tieude, hinhanh, ma_bviet FROM baiviet ";
+    $result = $conn -> query($query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,60 +74,24 @@
     <main class="container-fluid mt-3">
         <h3 class="text-center text-uppercase mb-3 text-primary">TOP bài hát yêu thích</h3>
         <div class="row">
-            <div class="col-sm-3">
-                <div class="card mb-2" style="width: 100%;">
-                    <img src="images/songs/cayvagio.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <a href="" class="text-decoration-none">Cây, lá và gió</a>
-                        </h5>
+            <?php 
+                if($result->num_rows > 0){
+                    while($article = $result -> fetch_assoc()){
+                    ?>
+                    <div class="col-sm-3">
+                    <div class="card mb-2" style="width: 100%;">
+                        <img src="<?php echo $article['hinhanh']; ?>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">
+                                <a href="./detail.php?id=<?php echo $article['ma_bviet'] ?>" class="text-decoration-none"><?php echo $article['tieude']; ?></a>
+                            </h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="card mb-2" style="width: 100%;">
-                    <img src="images/songs/csmt.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <a href="" class="text-decoration-none">Cuộc sống mến thương</a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="card mb-2" style="width: 100%;">
-                    <img src="images/songs//longme.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <a href="" class="text-decoration-none">Lòng mẹ</a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="card mb-2" style="width: 100%;">
-                    <img src="images/songs/phoipha.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <a href="" class="text-decoration-none">Phôi pha</a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <div class="card mb-2" style="width: 100%;">
-                    <img src="images/songs/noitinhyeubatdau.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-center my-title">
-                            <a href="" class="text-decoration-none">Nơi tình yêu bắt đầu</a>
-                        </h5>
-                    </div>
-                </div>
-            </div>
+                <?php
+                    }
+                }
+            ?>
         </div>
     </main>
     <footer class="bg-white d-flex justify-content-center align-items-center border-top border-secondary  border-2" style="height:80px">

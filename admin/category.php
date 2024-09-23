@@ -1,3 +1,12 @@
+<?php
+include_once '../connect/conn.php';
+
+$query = "SELECT * FROM theloai";
+$result = $conn -> query($query);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,26 +66,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Nhạc trữ tình</td>
-                            <td>
-                                <a href="edit_category.php?id=1"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href=""><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Nhạc cách mạng</td>
-                            <td>
-                                <a href="edit_category.php?id=2"><i class="fa-solid fa-pen-to-square"></i></a>
-                            </td>
-                            <td>
-                                <a href=""><i class="fa-solid fa-trash"></i></a>
-                            </td>
-                        </tr>
+                        <?php
+                            if($result -> num_rows > 0){
+                                $stt = 1;
+                                while($category = $result -> fetch_assoc()){
+                                    ?>
+                                         <tr>
+                                            <th scope="row"><?php echo $stt++; ?></th>
+                                            <td><?php echo $category['ten_tloai']; ?></td>
+                                            <td>
+                                                <a href="edit_category.php?id=<?php echo $category['ma_tloai']; ?> & name=<?php echo $category['ten_tloai'];  ?>"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="delete_category.php?id=<?php echo $category['ma_tloai']; ?>" onclick="return confirm('Bạn có muốn xóa <?php echo $category['ten_tloai']; ?>')"><i class="fa-solid fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                }
+                            }
+                        ?>
                        
                     </tbody>
                 </table>
