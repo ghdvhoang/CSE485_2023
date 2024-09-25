@@ -85,7 +85,7 @@
                                     </tr>
                                 <?php
                             }
-                         }
+                        }
                         ?>
                     </tbody>
                 </table>
